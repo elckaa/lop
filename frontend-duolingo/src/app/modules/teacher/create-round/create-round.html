@@ -1,0 +1,151 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-4 py-3 mb-4">
+  <div class="container-fluid">
+    <span class="navbar-brand fw-bold text-success d-flex align-items-center gap-2">
+      <i class="bi bi-mortarboard-fill fs-4"></i>
+      PORTAL DOCENTE
+    </span>
+    <div class="d-flex align-items-center gap-3">
+      <button routerLink="/teacher/dashboard" class="btn btn-outline-light btn-sm px-3 rounded-pill">
+        <i class="bi bi-arrow-left"></i> Volver al Panel
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="container pb-5">
+
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="fw-bold text-secondary mb-1">
+            {{ esEdicion ? 'Editar Ronda Académica' : 'Nueva Ronda Académica' }}
+          </h2>
+          <p class="text-muted small">
+            {{ esEdicion ? 'Modifica los ejercicios existentes.' : 'Configura los ejercicios y el nivel de dificultad.' }}
+          </p>
+        </div>
+        <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
+          <i class="bi bi-list-ol text-success"></i> {{ ronda.ejercicios.length }} Ejercicios
+        </span>
+      </div>
+
+      <div class="card shadow border-0 rounded-4 mb-4">
+        <div class="card-body p-4">
+          <h5 class="fw-bold text-success mb-3"><i class="bi bi-sliders"></i> Configuración General</h5>
+
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="form-label fw-bold text-muted small">TÍTULO DE LA RONDA</label>
+              <input type="text" class="form-control form-control-lg bg-light border-0"
+                     [(ngModel)]="ronda.titulo" placeholder="Ej: Vocabulario de Negocios">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold text-muted small">NIVEL</label>
+              <select class="form-select form-select-lg bg-light border-0 cursor-pointer" [(ngModel)]="ronda.nivel">
+                <option value="A1">A1 - Inicial</option>
+                <option value="A2">A2 - Básico</option>
+                <option value="B1">B1 - Intermedio</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="ronda.ejercicios.length === 0" class="text-center py-5 border-2 border-dashed rounded-4 mb-4 bg-light">
+        <i class="bi bi-puzzle fs-1 text-muted opacity-50"></i>
+        <p class="text-muted fw-bold mt-2">No hay ejercicios todavía</p>
+        <button (click)="agregarEjercicio()" class="btn btn-sm btn-success rounded-pill px-4">
+          <i class="bi bi-plus-lg"></i> Agregar el primero
+        </button>
+      </div>
+
+      <div *ngFor="let ex of ronda.ejercicios; let i = index" class="card shadow-sm border-0 rounded-4 mb-4 animate-slide-in position-relative overflow-hidden">
+        <div class="position-absolute top-0 start-0 h-100 bg-success" style="width: 6px;"></div>
+
+        <div class="card-body p-4 ps-4">
+
+          <div class="d-flex justify-content-between align-items-start mb-4 ps-2">
+            <div class="d-flex align-items-center gap-3">
+              <span class="badge bg-dark rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+                {{ i + 1 }}
+              </span>
+              <select class="form-select form-select-sm border-0 bg-light fw-bold text-primary" style="width: auto;" [(ngModel)]="ex.tipo">
+                <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+              </select>
+            </div>
+
+            <button (click)="eliminarEjercicio(i)" class="btn btn-outline-danger btn-sm rounded-circle border-0" title="Eliminar">
+              <i class="bi bi-trash3-fill"></i>
+            </button>
+          </div>
+
+          <div class="row g-4 ps-2">
+            <div class="col-md-4 border-end">
+              <div *ngIf="ex.tipo === 'IMAGEN' || ex.tipo === 'LISTENING'" class="text-center p-3 bg-light rounded-3 mb-3">
+                <i class="bi fs-3 d-block mb-2" [ngClass]="ex.tipo === 'IMAGEN' ? 'bi-image text-primary' : 'bi-mic-fill text-danger'"></i>
+
+                <label class="btn btn-outline-secondary btn-sm w-100 rounded-pill">
+                  {{ ex.contenido ? 'Cambiar Archivo' : 'Subir Archivo' }}
+                  <input type="file" class="d-none" (change)="onFileSelected($event, i)" [accept]="ex.tipo === 'IMAGEN' ? 'image/*' : 'audio/*'">
+                </label>
+
+                <small *ngIf="ex.contenido" class="d-block mt-2 text-success fw-bold">
+                  <i class="bi bi-check-circle-fill"></i> Cargado
+                </small>
+              </div>
+
+              <p class="text-muted small fst-italic mb-0 text-center">
+                <i class="bi bi-info-circle"></i> Selecciona el tipo de ejercicio correcto antes de escribir el contenido.
+              </p>
+            </div>
+
+            <div class="col-md-8">
+              <div class="mb-3">
+                <label class="form-label fw-bold text-muted small">ENUNCIADO / PREGUNTA</label>
+                <textarea class="form-control bg-light border-0" rows="2" [(ngModel)]="ex.enunciado" placeholder="Escribe la instrucción para el alumno..."></textarea>
+              </div>
+
+              <div *ngIf="['SELECCION_MULTIPLE', 'VERDADERO_FALSO', 'IMAGEN'].includes(ex.tipo)" class="mb-3 bg-light p-3 rounded-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <label class="form-label fw-bold text-muted small mb-0">OPCIONES</label>
+                  <button (click)="agregarOpcion(i)" class="btn btn-link btn-sm text-decoration-none p-0 fw-bold text-success">+ Agregar</button>
+                </div>
+
+                <div class="d-flex flex-column gap-2">
+                  <div *ngFor="let opt of ex.opcionesArray; let optIdx = index" class="input-group input-group-sm">
+                    <span class="input-group-text border-0 bg-white fw-bold text-muted">{{ optIdx + 1 }}</span>
+                    <input type="text" class="form-control border-0 bg-white" [(ngModel)]="ex.opcionesArray[optIdx]" placeholder="Opción...">
+                    <button class="btn btn-light text-danger" (click)="quitarOpcion(i, optIdx)"><i class="bi bi-x-lg"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label class="form-label fw-bold text-success small"><i class="bi bi-check-all"></i> RESPUESTA CORRECTA (CLAVE)</label>
+                <input type="text" class="form-control border-success bg-white" [(ngModel)]="ex.respuestaCorrecta" placeholder="Respuesta exacta para validar">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="d-flex gap-3 mt-4">
+        <button (click)="agregarEjercicio()" class="btn btn-secondary flex-grow-1 py-3 rounded-pill fw-bold shadow-sm">
+          <i class="bi bi-plus-circle me-2"></i> Añadir Otro Ejercicio
+        </button>
+
+        <button (click)="guardarRonda()" [disabled]="enviando" class="btn btn-success flex-grow-1 py-3 rounded-pill fw-bold shadow-sm">
+          <span *ngIf="!enviando">
+            <i class="bi" [ngClass]="esEdicion ? 'bi-check-circle-fill' : 'bi-save'"></i>
+            {{ esEdicion ? 'GUARDAR CAMBIOS' : 'PUBLICAR RONDA' }}
+          </span>
+          <span *ngIf="enviando"><span class="spinner-border spinner-border-sm me-2"></span> Procesando...</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

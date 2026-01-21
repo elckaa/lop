@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-3 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold text-warning" href="#">
+      <i class="bi bi-shield-lock-fill"></i> MODO DIOS (ADMIN)
+    </a>
+    <div class="d-flex align-items-center">
+      <span class="text-white me-3">Hola, <strong>{{ username }}</strong></span>
+      <button class="btn btn-outline-light btn-sm" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i> Salir
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-5 fw-bold text-secondary">Panel de Control</h2>
+
+  <div class="row justify-content-center gap-4">
+
+    <div class="col-md-5">
+      <div class="card h-100 shadow border-0 role-card" style="border-radius: 20px;">
+        <div class="card-body text-center p-5">
+          <div class="icon-circle bg-primary text-white mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; border-radius: 50%;">
+            <i class="bi bi-people-fill fs-1"></i>
+          </div>
+          <h3 class="fw-bold">Usuarios</h3>
+          <p class="text-muted">Crear, editar o eliminar Docentes y Estudiantes manualmente.</p>
+          
+          <button routerLink="/admin/users" class="btn btn-primary w-100 mt-3 rounded-pill">GESTIONAR</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="card h-100 shadow border-0 role-card" style="border-radius: 20px;">
+        <div class="card-body text-center p-5">
+          <div class="icon-circle bg-danger text-white mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; border-radius: 50%;">
+            <i class="bi bi-file-earmark-pdf-fill fs-1"></i>
+          </div>
+          <h3 class="fw-bold">Carga Masiva</h3>
+          <p class="text-muted">Sube el PDF de matrícula para registrar alumnos automáticamente.</p>
+          
+          <input type="file" 
+                 class="d-none" 
+                 accept=".pdf" 
+                 (change)="onUploadPdf($event)" 
+                 #pdfInput>
+
+          <button class="btn btn-danger w-100 mt-3 rounded-pill" 
+                  (click)="pdfInput.click()">
+            SUBIR PDF
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

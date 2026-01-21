@@ -1,0 +1,62 @@
+/* Importamos fuente amigable */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap');
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #f7f7f7;
+    color: #4b4b4b;
+}
+
+/* Botones estilo "Gomita" 3D */
+.btn {
+    border-radius: 15px; /* Bordes bien redondos */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 10px 20px;
+    border: none;
+    border-bottom: 4px solid rgba(0,0,0,0.2); /* Sombra dura abajo */
+    transition: all 0.1s;
+    margin: 5px;
+}
+
+.btn:active {
+    transform: translateY(4px); /* Se hunde al presionar */
+    border-bottom: 0px solid;
+    margin-top: 9px;
+}
+
+.btn-primary {
+    background-color: #58cc02; /* Verde Duolingo */
+    color: white;
+}
+
+.btn-danger {
+    background-color: #ff4b4b;
+}
+
+.btn-warning {
+    background-color: #ffc800;
+    color: white;
+}
+
+/* Cards (Tarjetas) */
+.card {
+    border-radius: 20px;
+    border: 2px solid #e5e5e5;
+    box-shadow: 0 4px 0 #e5e5e5; /* Sombra sólida */
+    overflow: hidden;
+}
+
+.form-control {
+    border-radius: 12px;
+    background-color: #f0f0f0;
+    border: 2px solid #e5e5e5;
+    height: 45px;
+}
+
+.form-control:focus {
+    background-color: #fff;
+    border-color: #3c9ee5;
+    box-shadow: none;
+}

@@ -1,0 +1,18 @@
+.landing-container {
+    min-height: 100vh;
+    background-color: #fff;
+    padding: 20px;
+    background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+    background-size: 20px 20px; /* Efecto de malla de puntos sutil */
+}
+
+/* Animación de rebote para el icono */
+.animate-bounce {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-20px);}
+    60% {transform: translateY(-10px);}
+}

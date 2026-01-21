@@ -1,0 +1,56 @@
+/* Estilo limpio basado en Bootstrap */
+body {
+  background-color: #f8f9fa; /* Fondo gris muy claro igual que un dashboard estándar */
+}
+
+/* Ajustes de las Tarjetas */
+.card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  /* Efecto sutil al pasar el mouse, similar al dashboard */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Inputs personalizados para que se vean modernos pero limpios */
+.form-control, .form-select {
+  padding: 0.75rem 1rem;
+  border-radius: 12px; /* Bordes más redondos */
+  box-shadow: none !important; /* Quitamos el brillo azul por defecto de Bootstrap */
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: #ffffff;
+  border: 1px solid #198754; /* Verde Success al enfocar */
+}
+
+/* Botones redondeados */
+.btn {
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Animación de entrada suave */
+.animate-slide-in {
+  animation: slideUp 0.4s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Área de carga de archivos */
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+/* Cursor pointer para selects */
+.cursor-pointer {
+  cursor: pointer;
+}

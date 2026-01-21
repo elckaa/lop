@@ -1,0 +1,105 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold text-dark">Gestión de Usuarios</h2>
+      <p class="text-muted">Administra el acceso a la plataforma</p>
+    </div>
+    <a routerLink="/admin/dashboard" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left"></i> Volver al Dashboard
+    </a>
+  </div>
+
+  <ul class="nav nav-pills mb-3">
+    <li class="nav-item">
+      <button class="nav-link fw-bold px-4 py-2" [class.active]="activeTab === 'DOCENTE'"
+              [class.bg-warning]="activeTab === 'DOCENTE'" [class.text-dark]="activeTab === 'DOCENTE'"
+              (click)="switchTab('DOCENTE')">
+        <i class="bi bi-briefcase-fill me-2"></i> DOCENTES
+      </button>
+    </li>
+    <li class="nav-item ms-2">
+      <button class="nav-link fw-bold px-4 py-2" [class.active]="activeTab === 'ESTUDIANTE'"
+              [class.bg-success]="activeTab === 'ESTUDIANTE'" [class.text-white]="activeTab === 'ESTUDIANTE'"
+              (click)="switchTab('ESTUDIANTE')">
+        <i class="bi bi-backpack-fill me-2"></i> ESTUDIANTES
+      </button>
+    </li>
+  </ul>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-primary" (click)="openModal()">
+          <i class="bi bi-plus-lg"></i> Nuevo {{ activeTab }}
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th><th>Usuario</th><th>Email</th><th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of userList">
+              <td>{{ u.id }}</td>
+              <td class="fw-bold">{{ u.username }}</td>
+              <td>{{ u.email }}</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-warning me-2" (click)="openModal(u)">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(u)">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="border-radius: 20px;">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold">{{ isEditing ? 'Editar' : 'Nuevo' }} {{ activeTab }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Usuario</label>
+            <input type="text" class="form-control" [(ngModel)]="selectedUser.username" name="username">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Email</label>
+            <input type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Rol</label>
+            <select class="form-select" [(ngModel)]="selectedUser.role" name="role">
+              <option value="ESTUDIANTE">ESTUDIANTE</option>
+              <option value="DOCENTE">DOCENTE</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Contraseña</label>
+            <input type="password" class="form-control" [(ngModel)]="selectedUser.password" name="password"
+                   [placeholder]="isEditing ? 'Dejar en blanco para no cambiar' : 'Requerido'">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveUser()">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
